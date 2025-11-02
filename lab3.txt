@@ -1,0 +1,83 @@
+user@user-ThinkPad-T460s:~/BITCOIN/bitcoin/build/bin$ ./bitcoind -regtest -datadir=$HOME/.bitcoin -daemon -fallbackfee=0.0001
+Bitcoin Core starting
+user@user-ThinkPad-T460s:~/BITCOIN/bitcoin/build/bin$ ./bitcoin-cli -regtest loadwallet "devwallet"
+{
+  "name": "devwallet"
+}
+user@user-ThinkPad-T460s:~/BITCOIN/bitcoin/build/bin$ RECV_ADDR=$(./bitcoin-cli -regtest getnewaddress)
+TXID=$(./bitcoin-cli -regtest sendtoaddress $RECV_ADDR 5.0)
+echo $TXID
+a7f53e047b1a55b9a60d757e6f5b50f2a5b7f5e961754d9bcf245dc57fd0f7fa
+user@user-ThinkPad-T460s:~/BITCOIN/bitcoin/build/bin$ ./bitcoin-cli -regtest getmempoolinfo
+{
+  "loaded": true,
+  "size": 1,
+  "bytes": 141,
+  "usage": 1200,
+  "total_fee": 0.00001410,
+  "maxmempool": 300000000,
+  "mempoolminfee": 0.00000100,
+  "minrelaytxfee": 0.00000100,
+  "incrementalrelayfee": 0.00000100,
+  "unbroadcastcount": 1,
+  "fullrbf": true,
+  "permitbaremultisig": true,
+  "maxdatacarriersize": 100000
+}
+user@user-ThinkPad-T460s:~/BITCOIN/bitcoin/build/bin$ ./bitcoin-cli -regtest getrawmempool | jq '.'
+[
+  "a7f53e047b1a55b9a60d757e6f5b50f2a5b7f5e961754d9bcf245dc57fd0f7fa"
+]
+user@user-ThinkPad-T460s:~/BITCOIN/bitcoin/build/bin$ MINER_ADDR=$(./bitcoin-cli -regtest getnewaddress)
+echo $MINER_ADDR
+bcrt1q4jlecwsnzen057zlkssrcwmktmctyjgudkhvw4
+user@user-ThinkPad-T460s:~/BITCOIN/bitcoin/build/bin$ ./bitcoin-cli -regtest generatetoaddress 1 $MINER_ADDR
+[
+  "5541122f31a33563ec319b571e0dfef92947fa27bce37ad537bfa79ca6587e13"
+]
+user@user-ThinkPad-T460s:~/BITCOIN/bitcoin/build/bin$ ./bitcoin-cli -regtest gettransaction $TXID
+{
+  "amount": 0.00000000,
+  "fee": -0.00001410,
+  "confirmations": 1,
+  "blockhash": "5541122f31a33563ec319b571e0dfef92947fa27bce37ad537bfa79ca6587e13",
+  "blockheight": 102,
+  "blockindex": 1,
+  "blocktime": 1762077263,
+  "txid": "a7f53e047b1a55b9a60d757e6f5b50f2a5b7f5e961754d9bcf245dc57fd0f7fa",
+  "wtxid": "eeb6e182352178aa095d4f5bea2f14070c89882b60029e8290f7f2f10fc2e0fd",
+  "walletconflicts": [
+  ],
+  "mempoolconflicts": [
+  ],
+  "time": 1762077069,
+  "timereceived": 1762077069,
+  "bip125-replaceable": "no",
+  "details": [
+    {
+      "address": "bcrt1qy3krcqzcqzq28xw8vt4p2ml4txq7neyacw5h6j",
+      "category": "send",
+      "amount": -5.00000000,
+      "label": "",
+      "vout": 0,
+      "fee": -0.00001410,
+      "abandoned": false
+    },
+    {
+      "address": "bcrt1qy3krcqzcqzq28xw8vt4p2ml4txq7neyacw5h6j",
+      "parent_descs": [
+        "wpkh([ef668031/84h/1h/0h]tpubDCGupyuWXVLcR4QPByxqanm6GrmQ4DDyv1oPBMERWG7kAZRreSfLsrBnkEevneyhdpJiZ4NrXwhPtYokygDUGFV3HFKTWFeWzpFa2VeQ7f9/0/*)#gy92apwt"
+      ],
+      "category": "receive",
+      "amount": 5.00000000,
+      "label": "",
+      "vout": 0,
+      "abandoned": false
+    }
+  ],
+  "hex": "02000000000101dc0fcabde42889b93db41ef8b080d19375b7a01e201bc4b46dbf66320e6e41290000000000fdffffff020065cd1d00000000160014246c3c00580080a399c762ea156ff55981e9e49d7e87380c0100000016001475694b07b2441ad799f512811b75e2cbe5ea300602473044022039d67fe53f44e2ae11b2e8b8b925bc7c2dab61219cd661e2d05d134f6ed04337022009627fb3274efbcad939866ab6e54f2599899e32c0ded3dc86f5c64d56f8ae4c012102685014c8ea2bd89e2cd4b6aff64cd2153a5542964f3fe927e1a45379f087f84d65000000",
+  "lastprocessedblock": {
+    "hash": "5541122f31a33563ec319b571e0dfef92947fa27bce37ad537bfa79ca6587e13",
+    "height": 102
+  }
+}

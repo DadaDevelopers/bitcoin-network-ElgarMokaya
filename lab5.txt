@@ -1,0 +1,20 @@
+user@user-ThinkPad-T460s:~/BITCOIN/bitcoin/build/bin$ ./bitcoind -regtest -datadir=$HOME/.bitcoin -daemon -blockfilterindex=1
+Bitcoin Core starting
+user@user-ThinkPad-T460s:~/BITCOIN/bitcoin/build/bin$ ./bitcoin-cli -regtest loadwallet "devwallet"
+{
+  "name": "devwallet"
+}
+user@user-ThinkPad-T460s:~/BITCOIN/bitcoin/build/bin$ ADDRESS=$(./bitcoin-cli -regtest getnewaddress)
+./bitcoin-cli -regtest generatetoaddress 1 $ADDRESS
+[
+  "42254bf26ac388de8673bbbf37f0486b0ab98dcef56630a47d8c516ac8d203e4"
+]
+user@user-ThinkPad-T460s:~/BITCOIN/bitcoin/build/bin$ BLOCK_HASH=$(./bitcoin-cli -regtest getblockhash 1)
+echo $BLOCK_HASH
+6fad7ce15a597a2362a46ce0b6038f8af00199ead75db436ca35d7f5f2ea2f7f
+user@user-ThinkPad-T460s:~/BITCOIN/bitcoin/build/bin$ ./bitcoin-cli -regtest getblockfilter $BLOCK_HASH
+{
+  "filter": "018d7de0",
+  "header": "642a503ec0cdc29f6afad588ae8e95f7a064f5bcd819cf2db83f3721edcf742b"
+}
+user@user-ThinkPad-T460s:~/BITCOIN/bitcoin/build/bin$ 
